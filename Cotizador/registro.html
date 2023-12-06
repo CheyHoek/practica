@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro e Inicio de Sesión con reCAPTCHA</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+</head>
+<body class="container mt-5">
+
+    <h2>Registro</h2>
+
+    <!-- Formulario de Registro -->
+    <form id="registerForm" action="procesar_registro.php" method="post">
+        <div class="form-group">
+            <label for="username">Usuario:</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Contraseña:</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <div class="g-recaptcha" data-sitekey="6LcryhspAAAAAJjAS27Ghu5gGZe7nFNFn24K1QEd"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Registrarse</button>
+    </form>
+
+    <hr>
+    <h2>Inicio de Sesión</h2>
+    <!-- Formulario de Inicio de Sesión -->
+    <form id="loginForm" action="procesar_login.php" method="post">
+        <div class="form-group">
+            <label for="loginUsername">Usuario:</label>
+            <input type="text" class="form-control" id="loginUsername" name="username" required>
+        </div>
+
+        <div class="form-group">
+            <label for="loginPassword">Contraseña:</label>
+            <input type="password" class="form-control" id="loginPassword" name="password" required>
+        </div>
+
+        <div class="form-group">
+            <div class="g-recaptcha" data-sitekey="6LcryhspAAAAAJjAS27Ghu5gGZe7nFNFn24K1QEd"></div>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Iniciar Sesión</button>
+    </form>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
