@@ -1,5 +1,5 @@
 <?php
-$servername = "127.0.0.1:8080";
+$servername = "localhost";
 $username = "root";
 $password = "";
 $dbname = "amigurumi_db";
@@ -13,28 +13,31 @@ if ($conn->connect_error) {
 }
 
 // Obtener valores del formulario
-$nombre = $_POST['nomamigurumi'];
-$altura = $_POST['altura'];
-$ancho = $_POST['ancho'];
-$descripcion = $_POST['descripcion'];
-$costoMateriales = $_POST['costoMateriales'];
-$horasTrabajo = $_POST['horasTrabajo'];
-$tarifaHora = $_POST['tarifaHora'];
-$factorGanancia = $_POST['factorGanancia'];
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["operation"]) && $_POST["operation"] == "insert") {
+    $nombre = isset($_POST["nomamigurumi"]) ? $_POST["nomamigurumi"] : "";
+    $altura = isset($_POST["altura"]) ? $_POST["altura"] : 0;
+    $ancho = isset($_POST["ancho"]) ? $_POST["ancho"] : 0;
+    $descripcion = isset($_POST["descripcion"]) ? $_POST["descripcion"] : "";
+    $costoMateriales = isset($_POST["costoMateriales"]) ? $_POST["costoMateriales"] : 0;
+    $horasTrabajo = isset($_POST["horasTrabajo"]) ? $_POST["horasTrabajo"] : 0;
+    $tarifaHora = isset($_POST["tarifaHora"]) ? $_POST["tarifaHora"] : 0;
+    $factorGanancia = isset($_POST["factorGanancia"]) ? $_POST["factorGanancia"] : 0;
 
 // Calcular el precio
 $precioRecomendado = ($costoMateriales + ($horasTrabajo * $tarifaHora)) * $factorGanancia;
 
 // Insertar datos en la base de datos
-$sql = "INSERT INTO Amigurumi (nombre, altura, ancho, descripcion, costoMateriales, horasTrabajo, tarifaHora, factorGanancia, precioRecomendado)
-VALUES ('$nombre', $altura, $ancho, '$descripcion', $costoMateriales, $horasTrabajo, $tarifaHora, $factorGanancia, $precioRecomendado)";
+$sql = $conn->prepare("INSERT INTO amigurumi (nombre, altura, ancho, descripcion, costoMateriales, horasTrabajo, tarifaHora, factorGanancia) VALUES (?, ?, ?, ?, ?, ?, ?, ?)");
+$sql->bind_param("sddsddds", $nombre, $altura, $ancho, $descripcion, $costoMateriales, $horasTrabajo, $tarifaHora, $factorGanancia);
 
-if ($conn->query($sql) === TRUE) {
-    echo "Registro insertado correctamente";
+if ($sql->execute()) {
+    echo "Registro guardado exitosamente";
 } else {
-    echo "Error al insertar el registro: " . $conn->error;
+    echo "Error al guardar el registro: " . $sql->error;
 }
 
+$sql->close();
+}
 // Cerrar la conexión
 $conn->close();
 ?>
